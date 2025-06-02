@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIN Docs</title>
+    <link rel="icon" href="logo.webp" type="image/webp">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e5cc2;
+            --primary-dark: #4a3f8c;
+            --secondary: #4a72d1;
+            --dark: #0d1117;
+            --darker: #010409;
+            --light: #f0f6fc;
+            --gray: #8b949e;
+            --success: #238636;
+            --warning: #9e6a03;
+            --danger: #da3633;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --code-bg: #0d1117;
+            --sidebar-width: 280px;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .logo h1 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .search-box {
+            position: fixed;
+            top: calc(var(--header-height) + 1rem);
+            left: 1rem;
+            width: calc(var(--sidebar-width) - 2rem);
+            z-index: 101;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            padding: 0.5rem;
+            width: 100%;
+            outline: none;
+        }
+
+        .search-box i {
+            color: var(--gray);
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--darker);
+            border-right: 1px solid var(--border);
+            height: calc(100vh - var(--header-height));
+            position: fixed;
+            top: var(--header-height);
+            overflow-y: auto;
+            padding: 1.5rem 0;
+            transition: transform 0.3s ease;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sidebar h3:first-of-type {
+            margin-top: 3.5rem;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar h3 {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 2rem 0 1rem;
+            position: relative;
+        }
+
+        .sidebar h3::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .sidebar li a {
+            display: block;
+            padding: 0.8rem 2rem;
+            color: var(--light);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+            margin: 0.3rem 0;
+        }
+
+        .sidebar li a:hover {
+            background: var(--card-bg);
+            border-left: 3px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .sidebar li a.active {
+            background: var(--card-bg);
+            border-left: 3px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .sidebar li a i {
+            width: 25px;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+
+        .code-block {
+            background: var(--darker);
+            border-radius: 8px;
+            margin: 1.5rem;
+            position: relative;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: var(--dark);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-title {
+            color: #abb2bf;
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .copy-btn {
+            background: rgba(110, 92, 194, 0.1);
+            color: var(--primary);
+            border: 1px solid transparent;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary-dark);
+        }
+
+        pre {
+            color: #e6edf3;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+            line-height: 1.7;
+            padding: 1.2rem;
+            margin: 0;
+            background: var(--darker);
+        }
+
+        pre code {
+            display: block;
+            padding: 0;
+            overflow-x: auto;
+        }
+
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .element-card {
+            width: 100%;
+            background: var(--darker);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .element-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary);
+        }
+
+        .element-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--light);
+        }
+
+        .element-card h4 i {
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .param-name-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+        }
+
+        .param-name {
+            font-size: 0.95rem;
+            color: var(--light);
+            font-weight: 500;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.3rem 1rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: var(--primary);
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .tag.optional {
+            background: var(--success);
+            color: #E2F3E8;
+        }
+
+        .code-snippet {
+            background: #24292e;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .code-snippet:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .code-snippet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: #1f2428;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-snippet-title {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .code-snippet-title i {
+            color: var(--primary);
+        }
+
+        .code-snippet-content {
+            background: #24292e;
+            padding: 1.5rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-snippet pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+        }
+
+        .code-snippet code {
+            color: #e1e4e8;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .custom-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .custom-list-item {
+            background: var(--darker);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .custom-list-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-list-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .custom-list-icon {
+            color: var(--primary);
+            font-size: 1.4rem;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(110, 92, 194, 0.1);
+            border-radius: 8px;
+        }
+
+        .custom-list-title {
+            color: var(--light);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .custom-list-content {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background: rgba(0, 206, 201, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+
+        .tab-container {
+            margin-top: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--darker);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            position: relative;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            color: var(--light);
+            background: rgba(110, 92, 194, 0.1);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            background: var(--card-bg);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Update code block margins in tabs */
+        .tab-content .custom-code-block {
+            margin: 0;
+        }
+
+        footer {
+            background: var(--darker);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--gray);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--darker));
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            color: var(--light);
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: var(--darker);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                width: 100%;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .search-box {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .logo {
+                margin-bottom: 0;
+            }
+
+            .search-box {
+                width: 100%;
+                display: flex;
+            }
+
+            .element-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 960px) {
+            .element-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* GitHub Dark VSCode theme colors */
+        .hljs {
+            color: #e1e4e8;
+            background: #24292e;
+        }
+        
+        .hljs-keyword {
+            color: #ff7b72;
+        }
+        
+        .hljs-built_in {
+            color: #79c0ff;
+        }
+        
+        .hljs-type {
+            color: #ff7b72;
+        }
+        
+        .hljs-literal {
+            color: #79c0ff;
+        }
+        
+        .hljs-number {
+            color: #79c0ff;
+        }
+        
+        .hljs-regexp {
+            color: #a5d6ff;
+        }
+        
+        .hljs-string {
+            color: #a5d6ff;
+        }
+        
+        .hljs-subst {
+            color: #e1e4e8;
+        }
+        
+        .hljs-symbol {
+            color: #79c0ff;
+        }
+        
+        .hljs-class {
+            color: #ff7b72;
+        }
+        
+        .hljs-function {
+            color: #d2a8ff;
+        }
+        
+        .hljs-title {
+            color: #d2a8ff;
+        }
+        
+        .hljs-params {
+            color: #e1e4e8;
+        }
+        
+        .hljs-comment {
+            color: #8b949e;
+            font-style: italic;
+        }
+        
+        .hljs-doctag {
+            color: #ff7b72;
+        }
+        
+        .hljs-meta {
+            color: #79c0ff;
+        }
+        
+        .hljs-section {
+            color: #d2a8ff;
+        }
+        
+        .hljs-tag {
+            color: #7ee787;
+        }
+        
+        .hljs-name {
+            color: #7ee787;
+        }
+        
+        .hljs-attr {
+            color: #79c0ff;
+        }
+        
+        .hljs-attribute {
+            color: #79c0ff;
+        }
+        
+        .hljs-variable {
+            color: #ff7b72;
+        }
+        
+        .hljs-template-variable {
+            color: #ff7b72;
+        }
+        
+        .hljs-addition {
+            color: #aff5b4;
+            background-color: #033a16;
+        }
+        
+        .hljs-deletion {
+            color: #ffdcd7;
+            background-color: #67060c;
+        }
+
+        /* Custom code block styling */
+        .custom-code-block {
+            background: linear-gradient(145deg, var(--darker), var(--card-bg));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .custom-code-block:hover {
+            border-color: var(--primary);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+        }
+
+        .custom-code-block pre {
+            margin: 0;
+            padding: 1.5rem;
+            background: transparent;
+        }
+
+        /* Code block header styling */
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: var(--darker);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--gray);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .code-block-header i {
+            margin-right: 0.5rem;
+        }
+
+        /* Ensure proper border radius for code blocks with headers */
+        .custom-code-block.with-header pre {
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 0 12px 12px;
+        }
+
+        /* Ensure proper border radius for code blocks without headers */
+        .custom-code-block:not(.with-header) pre {
+            border-radius: 12px;
+        }
+
+        /* Custom syntax highlighting colors */
+        .custom-code-block .hljs-operator,
+        .custom-code-block .hljs-keyword,
+        .custom-code-block .hljs-function {
+            color: #f0883e !important; /* Orange for arrow functions */
+        }
+
+        .custom-code-block .hljs-keyword:not(:contains("=>")) {
+            color: #79c0ff !important; /* Light blue for other keywords */
+        }
+
+        .custom-code-block .hljs-built_in {
+            color: #79c0ff; /* Light blue for built-ins */
+        }
+
+        .custom-code-block .hljs-string {
+            color: #a5d6ff; /* Light blue for strings */
+        }
+
+        .custom-code-block .hljs-number {
+            color: #79c0ff; /* Light blue for numbers */
+        }
+
+        .custom-code-block .hljs-comment {
+            color: #8b949e; /* Gray for comments */
+            font-style: italic;
+        }
+
+        .custom-code-block .hljs-function:not(:contains("=>")) {
+            color: #bd93f9 !important; /* Purple for regular functions */
+        }
+
+        .custom-code-block .hljs-title {
+            color: #bd93f9; /* Purple for function names */
+        }
+
+        .custom-code-block .hljs-params {
+            color: #e1e4e8; /* White for parameters */
+        }
+
+        .custom-code-block .hljs-variable {
+            color: #e1e4e8; /* White for let variables */
+        }
+
+        .custom-code-block .hljs-literal {
+            color: #79c0ff; /* Light blue for literals */
+        }
+
+        .custom-code-block .hljs-property {
+            color: #79c0ff; /* Light blue for object properties */
+        }
+
+        .custom-code-block .hljs-punctuation {
+            color: #e1e4e8; /* White for punctuation */
+        }
+
+        .custom-code-block .hljs-attr {
+            color: #79c0ff; /* Light blue for attributes */
+        }
+
+        .custom-code-block code {
+            color: #e1e4e8; /* Default text color */
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-code logo-icon"></i>
+            <h1>SIN Documentation</h1>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search documentation...">
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="sidebar">
+            <h3>Getting Started</h3>
+            <ul>
+                <li><a href="#installation" class="active"><i class="fas fa-download"></i> Installation</a></li>
+                <li><a href="#importing"><i class="fas fa-file-import"></i> Importing Base.js</a></li>
+                <li><a href="#creating"><i class="fas fa-plus-circle"></i> Creating sin const</a></li>
+                <li><a href="#exporting"><i class="fas fa-external-link-alt"></i> Exporting Config</a></li>
+                <li><a href="#importing-config"><i class="fas fa-file-export"></i> Importing Config</a></li>
+            </ul>
+            
+            <h3>Element Types</h3>
+            <ul>
+                <li><a href="#button"><i class="fas fa-toggle-off"></i> Button</a></li>
+                <li><a href="#switch"><i class="fas fa-toggle-on"></i> Switch/Toggle</a></li>
+                <li><a href="#text-input"><i class="fas fa-font"></i> Text Input</a></li>
+                <li><a href="#slider"><i class="fas fa-sliders-h"></i> Slider</a></li>
+                <li><a href="#color-picker"><i class="fas fa-palette"></i> Color Picker</a></li>
+                <li><a href="#dropdown"><i class="fas fa-caret-square-down"></i> Dropdown</a></li>
+                <li><a href="#text-paragraph"><i class="fas fa-paragraph"></i> Text Paragraph</a></li>
+                <li><a href="#keybind"><i class="fas fa-keyboard"></i> Keybind</a></li>
+            </ul>
+            
+            <h3>Advanced</h3>
+            <ul>
+                <li><a href="#methods"><i class="fas fa-cogs"></i> Additional Methods</a></li>
+                <li><a href="#feature-manager"><i class="fas fa-star"></i> FeatureManager</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div class="hero">
+                <h2>SIN Documentation</h2>
+                <p>A somewhat decent documentation to get you started with SIN</p>
+                <div class="hero-btns">
+                    <a href="#installation" class="btn btn-primary">Get Started</a>
+                    <a href="https://github.com/sin-module" target="_blank" class="btn btn-secondary">GitHub Repository</a>
+                </div>
+            </div>
+
+            <!-- Getting Started -->
+            <section id="installation" class="section">
+                <h2><i class="fas fa-download"></i> Installation</h2>
+                <div class="custom-code-block with-header">
+                    <div class="code-block-header">
+                        <i class="fas fa-code"></i> </> Example
+                    </div>
+                    <pre><code class="json">{
+  "name": "YourModule",
+  "creator": "Name",
+  "description": "description",
+  "version": "1.0.0",
+  "entry": "index.js",
+  "requires": ["sin"]
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="importing" class="section">
+                <h2><i class="fas fa-file-import"></i> Importing Base.js</h2>
+                <div class="custom-code-block with-header">
+                    <div class="code-block-header">
+                        <i class="fas fa-code"></i> </> JavaScript
+                    </div>
+                    <pre><code class="javascript">import Base from "sin/main/base.js"</code></pre>
+                </div>
+            </section>
+
+            <section id="creating" class="section">
+                <h2><i class="fas fa-plus-circle"></i> Creating sin const</h2>
+                <div class="custom-code-block with-header">
+                    <div class="code-block-header">
+                        <i class="fas fa-code"></i> </> JavaScript
+                    </div>
+                    <pre><code class="javascript">const sin = new Base("moduleName", "colorSchemePath", "moduleName", "configPath")</code></pre>
+                </div>
+
+                <ul class="custom-list">
+                    <li class="custom-list-item">
+                        <div class="custom-list-header">
+                            <i class="fas fa-info-circle custom-list-icon"></i>
+                            <span class="custom-list-title">Parameters</span>
+                        </div>
+                        <div class="custom-list-content">
+                            <div class="param-name-container">
+                                <span class="param-name">ModuleName</span>
+                                <span class="tag">Required</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">Color Scheme path</span>
+                                <span class="tag">Required</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">GUI title</span>
+                                <span class="tag">Required</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">Config path</span>
+                                <span class="tag optional">Optional</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Exporting Section -->
+            <section id="exporting" class="section">
+                <h2><i class="fas fa-external-link-alt"></i> Exporting the Config</h2>
+                <p>Export your configuration for use in other files:</p>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="export1">Export Option 1</button>
+                        <button class="tab" data-tab="export2">Export Option 2</button>
+                    </div>
+                    
+                    <div id="export1" class="tab-content active">
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">// config.js (or any other file)
+import Base from "sin/main/base.js"
+
+const sin = new Base("MyModule", "colors.json", "My Module Config")
+    .addButton({
+        category: "General",
+        configName: "exampleButton",
+        subcategory: "General",
+        title: "Example Button",
+        description: "This is an example button",
+        onClick: () => print("Button clicked!")
+    })
+    .addSwitch({
+        category: "General",
+        configName: "exampleSwitch",
+        subcategory: "General",
+        title: "Example Switch",
+        description: "This is an example switch"
+    })
+
+export default () => sin.getSettings()</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div id="export2" class="tab-content">
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">// config.js (or any other file)
+import Base from "sin/main/base.js"
+
+const sin = new Base("MyModule", "colors.json", "My Module Config")
+    .addButton({
+        category: "General",
+        configName: "exampleButton",
+        subcategory: "General",
+        title: "Example Button",
+        description: "This is an example button",
+        onClick: () => print("Button clicked!")
+    })
+    .addSwitch({
+        category: "General",
+        configName: "exampleSwitch",
+        subcategory: "General",
+        title: "Example Switch",
+        description: "This is an example switch"
+    })
+
+export default sin.getSettings()</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Importing Config Section -->
+            <section id="importing-config" class="section">
+                <h2><i class="fas fa-file-export"></i> Importing the Config in Other Files</h2>
+                <p>Import your configuration in other parts of your application:</p>
+                
+                <div class="custom-code-block with-header">
+                    <div class="code-block-header">
+                        <i class="fas fa-code"></i> </> Example
+                    </div>
+                    <pre><code class="javascript">import Config from "./config.js";
+
+// Use Config() if you did export default () => sin.getSettings()
+// Use Config if you did export default sin.getSettings()
+// I'll continue using Config() for the rest of the example
+
+register("command", () => {
+    Config().getConfig().openGui() // Opens the Config GUI
+}).setName("openGui")
+
+register("worldLoad", () => {
+    ChatLib.chat(Config().exampleValue) // Sends the exampleValue's value in chat
+})
+
+Config().getConfig()
+    .onOpenGui(() => ChatLib.chat("GUI opened.")) // Sends a message on GUI open
+    .onCloseGui(() => ChatLib.chat("GUI closed.")) // Sends a message on GUI close
+    .registerListener("exampleValue", (oldV, newV) => ChatLib.chat(`${oldV} -> ${newV}`)) // Message when exampleValue changes</code></pre>
+                </div>
+            </section>
+
+            <!-- Element Types -->
+            <section id="element-types" class="section">
+                <h2><i class="fas fa-cube"></i> Element Types</h2>
+                <p>The SIN module provides several GUI elements that can be added to your configuration interface:</p>
+                
+                <div class="element-grid">
+                    <!-- Button -->
+                    <div id="button" class="element-card">
+                        <h4><i class="fas fa-toggle-off"></i> Button</h4>
+                        <div class="param-name-container">
+                            <span class="param-name">category</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">configName</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">subcategory</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">onClick</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">title</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">description</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">shouldShow</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">.addButton({
+    category: "General",
+    configName: "exampleButton",
+    title: "Example Button",
+    description: "This is an example button",
+    subcategory: "Settings",
+    onClick: () => print("Button clicked!"),
+    shouldShow: data => data.exampleSwitch
+})</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Switch -->
+                    <div id="switch" class="element-card">
+                        <h4><i class="fas fa-toggle-on"></i> Switch/Toggle</h4>
+                        <div class="param-name-container">
+                            <span class="param-name">category</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">configName</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">subcategory</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">title</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">description</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">value</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">shouldShow</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">registerListener</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">.addSwitch({
+    category: "General",
+    configName: "exampleSwitch",
+    title: "Enable Feature",
+    description: "This is an example switch",
+    subcategory: "Settings",
+    value: true,
+    shouldShow: data => data.exampleButton,
+    registerListener: (oldV, newV) => print(`Switch: ${oldV} -> ${newV}`)
+})</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Text Input -->
+                    <div id="text-input" class="element-card">
+                        <h4><i class="fas fa-font"></i> Text Input</h4>
+                        <div class="param-name-container">
+                            <span class="param-name">category</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">configName</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">subcategory</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">title</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">description</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">value</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">placeHolder</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">shouldShow</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">registerListener</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">.addTextInput({
+    category: "General",
+    configName: "username",
+    title: "Username",
+    description: "Enter your username",
+    subcategory: "Settings",
+    value: "",
+    placeHolder: "Enter username here",
+    shouldShow: data => data.exampleSwitch,
+    registerListener: (oldV, newV) => print(`Username changed: ${oldV} -> ${newV}`)
+})</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Slider -->
+                    <div id="slider" class="element-card">
+                        <h4><i class="fas fa-sliders-h"></i> Slider</h4>
+                        <div class="param-name-container">
+                            <span class="param-name">category</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">configName</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">subcategory</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">options</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">title</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">description</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">value</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">shouldShow</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">registerListener</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">.addSlider({
+    category: "Settings",
+    configName: "volume",
+    title: "Volume Control",
+    description: "Adjust the volume level",
+    subcategory: "Audio",
+    options: [0, 100],
+    value: 50,
+    shouldShow: data => data.audioEnabled,
+    registerListener: (oldV, newV) => print(`Volume changed: ${oldV} -> ${newV}`)
+})</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- ColorPicker -->
+                    <div id="color-picker" class="element-card">
+                        <h4><i class="fas fa-palette"></i> Color Picker</h4>
+                        <div class="param-name-container">
+                            <span class="param-name">category</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">configName</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">subcategory</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">title</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">value</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">shouldShow</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">registerListener</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">.addColorPicker({
+    category: "Appearance",
+    configName: "themeColor",
+    title: "Theme Color",
+    subcategory: "Colors",
+    value: [108, 92, 231],
+    shouldShow: data => data.customTheme,
+    registerListener: (oldV, newV) => print(`Color changed: [${oldV}] -> [${newV}]`)
+})</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Dropdown -->
+                    <div id="dropdown" class="element-card">
+                        <h4><i class="fas fa-caret-square-down"></i> Dropdown</h4>
+                        <div class="param-name-container">
+                            <span class="param-name">category</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">configName</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">subcategory</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">options</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">title</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">description</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">value</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">shouldShow</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">registerListener</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">.addDropDown({
+    category: "Settings",
+    configName: "language",
+    title: "Language Selection",
+    description: "Choose your preferred language",
+    subcategory: "Preferences",
+    options: ["English", "Spanish", "French", "German"],
+    value: "English",
+    shouldShow: data => data.enableLanguageSelection,
+    registerListener: (oldV, newV) => print(`Language changed: ${oldV} -> ${newV}`)
+})</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Text Paragraph -->
+                    <div id="text-paragraph" class="element-card">
+                        <h4><i class="fas fa-paragraph"></i> Text Paragraph</h4>
+                        <div class="param-name-container">
+                            <span class="param-name">category</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">configName</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">description</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">subcategory</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">title</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">centered</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">shouldShow</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">.addTextParagraph({
+    category: "Information",
+    configName: "welcomeText",
+    title: "Welcome",
+    description: "Welcome to our module! This is a centered text paragraph that provides information to users.",
+    subcategory: "Welcome",
+    centered: true,
+    shouldShow: data => data.showWelcome
+})</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Keybind -->
+                    <div id="keybind" class="element-card">
+                        <h4><i class="fas fa-keyboard"></i> Keybind</h4>
+                        <div class="param-name-container">
+                            <span class="param-name">category</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">configName</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">subcategory</span>
+                            <span class="tag">Required</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">title</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">description</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">value</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">shouldShow</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="param-name-container">
+                            <span class="param-name">registerListener</span>
+                            <span class="tag optional">Optional</span>
+                        </div>
+                        <div class="custom-code-block with-header">
+                            <div class="code-block-header">
+                                <i class="fas fa-code"></i> </> Example
+                            </div>
+                            <pre><code class="javascript">.addKeybind({
+    category: "Controls",
+    configName: "toggleKey",
+    title: "Toggle Module",
+    description: "Key to toggle the module on/off",
+    subcategory: "Hotkeys",
+    value: 45, // Insert key
+    shouldShow: data => data.enableHotkeys,
+    registerListener: (oldV, newV) => print(`Keybind changed: ${oldV} -> ${newV}`)
+})</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Additional Methods -->
+            <section id="methods" class="section">
+                <h2><i class="fas fa-cogs"></i> Additional Methods</h2>
+                <ul class="custom-list">
+                    <li class="custom-list-item">
+                        <div class="custom-list-header">
+                            <i class="fas fa-desktop custom-list-icon"></i>
+                            <span class="custom-list-title">GUI Methods</span>
+                        </div>
+                        <div class="custom-list-content">
+                            <div class="param-name-container">
+                                <span class="param-name">.getGui()</span>
+                                <span class="tag">Returns GUI instance</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">.getHandler()</span>
+                                <span class="tag">Returns handler instance</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">.openGui()</span>
+                                <span class="tag">Opens GUI</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">.closeGui()</span>
+                                <span class="tag">Closes GUI</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">.setSize(width, height)</span>
+                                <span class="tag">Sets GUI size</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">.setRatio(ratio)</span>
+                                <span class="tag">Sets GUI ratio</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="custom-list-item">
+                        <div class="custom-list-header">
+                            <i class="fas fa-cog custom-list-icon"></i>
+                            <span class="custom-list-title">Event Methods</span>
+                        </div>
+                        <div class="custom-list-content">
+                            <div class="param-name-container">
+                                <span class="param-name">.onOpenGui(func)</span>
+                                <span class="tag">Event Handler</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">.onCloseGui(func)</span>
+                                <span class="tag">Event Handler</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="custom-list-item">
+                        <div class="custom-list-header">
+                            <i class="fas fa-sliders-h custom-list-icon"></i>
+                            <span class="custom-list-title">Configuration Methods</span>
+                        </div>
+                        <div class="custom-list-content">
+                            <div class="param-name-container">
+                                <span class="param-name">.setValue(key, value)</span>
+                                <span class="tag">Sets SinGUI value</span>
+                            </div>
+                            <div class="param-name-container">
+                                <span class="param-name">.setConfigValue(key, value)</span>
+                                <span class="tag">Sets config value</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Feature Manager -->
+            <section id="feature-manager" class="section">
+                <h2><i class="fas fa-star"></i> Feature Manager</h2>
+                <div class="custom-code-block with-header">
+                    <div class="code-block-header">
+                        <i class="fas fa-code"></i> </> Example
+                    </div>
+                    <pre><code class="javascript">import Config from "../config"
+import { FeatureManager } from "../../tska/event/FeatureManager"
+
+const FeatManager = new FeatureManager(Config())
+const example = FeatManager.createFeature("exampleConfigVal")
+
+example
+  .onRegister(() => ChatLib.chat("registered"))
+  .register("stepFps", () => ChatLib.chat("meow"), 1)
+  .onUnregister(() => ChatLib.chat("unregistered"))</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>SIN Documentation &copy; 2025 | Created with ❤️ for CT developers</p>
+    </footer>
+
+    <script>
+        const sections = document.querySelectorAll('section[id], .element-card[id]')
+        const navLinks = document.querySelectorAll('.sidebar a')
+
+        function updateActiveSection() {
+            const scrollPosition = window.scrollY + 100
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop
+                const sectionHeight = section.clientHeight
+                const sectionId = section.getAttribute('id')
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) 
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) link.classList.add('active')
+                })
+            })
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault()
+                const targetId = link.getAttribute('href').substring(1)
+                const targetElement = document.getElementById(targetId)
+                
+                if (targetElement) {
+                    const headerOffset = 80
+                    const elementPosition = targetElement.getBoundingClientRect().top
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    })
+
+                    navLinks.forEach(l => l.classList.remove('active'))
+                    link.classList.add('active')
+                }
+            })
+        })
+
+        window.addEventListener('scroll', updateActiveSection)
+        updateActiveSection()
+
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const codeBlock = button.closest('.code-snippet').querySelector('code')
+                const textToCopy = codeBlock.textContent
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = button.innerHTML
+                    button.innerHTML = '<i class="fas fa-check"></i> Copied!'
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText
+                    }, 2000)
+                })
+            })
+        })
+
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn')
+        const sidebar = document.querySelector('.sidebar')
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active')
+        })
+
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) sidebar.classList.remove('active')
+        })
+
+        const searchInput = document.querySelector('.search-box input')
+        const sidebarLinks = document.querySelectorAll('.sidebar a')
+        
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase()
+            
+            sidebarLinks.forEach(link => {
+                const text = link.textContent.toLowerCase()
+                const listItem = link.parentElement
+                
+                if (text.includes(searchTerm)) {
+                    listItem.style.display = ''
+                    const category = link.closest('ul').previousElementSibling
+                    if (category && category.tagName === 'H3') category.style.display = ''
+                } else listItem.style.display = 'none'
+            })
+            
+            document.querySelectorAll('.sidebar h3').forEach(category => {
+                const nextUl = category.nextElementSibling
+                if (nextUl && nextUl.tagName === 'UL') {
+                    const hasVisibleItems = Array.from(nextUl.children).some(
+                        item => item.style.display !== 'none'
+                    )
+                    category.style.display = hasVisibleItems ? '' : 'none'
+                }
+            })
+        })
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab')
+            const tabContents = document.querySelectorAll('.tab-content')
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetId = tab.getAttribute('data-tab')
+                    
+                    tabs.forEach(t => t.classList.remove('active'))
+                    tabContents.forEach(content => content.classList.remove('active'))
+                    
+                    tab.classList.add('active')
+                    document.getElementById(targetId).classList.add('active')
+                })
+            })
+        })
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
