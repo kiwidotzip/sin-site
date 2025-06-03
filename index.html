@@ -1073,7 +1073,7 @@ const sin = new Base("MyModule", "colors.json", "My Module Config")
         description: "This is an example switch"
     })
 
-export default () => sin.getSettings()</code></pre>
+export default () => sin.settings</code></pre>
                         </div>
                     </div>
                     
@@ -1102,7 +1102,7 @@ const sin = new Base("MyModule", "colors.json", "My Module Config")
         description: "This is an example switch"
     })
 
-export default sin.getSettings()</code></pre>
+export default sin.settings</code></pre>
                         </div>
                     </div>
                 </div>
@@ -1119,8 +1119,8 @@ export default sin.getSettings()</code></pre>
                     </div>
                     <pre><code class="javascript">import Config from "./config.js";
 
-// Use Config() if you did export default () => sin.getSettings()
-// Use Config if you did export default sin.getSettings()
+// Use Config() if you did export default () => sin.settings
+// Use Config if you did export default sin.settings
 // I'll continue using Config() for the rest of the example
 
 register("command", () => {
@@ -1186,7 +1186,7 @@ Config().getConfig()
     description: "This is an example button",
     subcategory: "Settings",
     onClick: () => print("Button clicked!"),
-    shouldShow: data => data.exampleSwitch
+    shouldShow: data => data.parentSetting
 })</code></pre>
                         </div>
                     </div>
@@ -1237,7 +1237,7 @@ Config().getConfig()
     description: "This is an example switch",
     subcategory: "Settings",
     value: true,
-    shouldShow: data => data.exampleButton,
+    shouldShow: data => data.parentSetting,
     registerListener: (oldV, newV) => print(`Switch: ${oldV} -> ${newV}`)
 })</code></pre>
                         </div>
@@ -1288,14 +1288,14 @@ Config().getConfig()
                             </div>
                             <pre><code class="javascript">.addTextInput({
     category: "General",
-    configName: "username",
-    title: "Username",
-    description: "Enter your username",
+    configName: "exampleTextInput",
+    title: "example textinput",
+    description: "example textinput",
     subcategory: "Settings",
     value: "",
-    placeHolder: "Enter username here",
-    shouldShow: data => data.exampleSwitch,
-    registerListener: (oldV, newV) => print(`Username changed: ${oldV} -> ${newV}`)
+    placeHolder: "example textinput",
+    shouldShow: data => data.parentSetting,
+    registerListener: (oldV, newV) => print(`example textinput changed: ${oldV} -> ${newV}`)
 })</code></pre>
                         </div>
                     </div>
@@ -1345,14 +1345,14 @@ Config().getConfig()
                             </div>
                             <pre><code class="javascript">.addSlider({
     category: "Settings",
-    configName: "volume",
-    title: "Volume Control",
-    description: "Adjust the volume level",
+    configName: "exampleSlider",
+    title: "example slider",
+    description: "example slider",
     subcategory: "Audio",
     options: [0, 100],
     value: 50,
-    shouldShow: data => data.audioEnabled,
-    registerListener: (oldV, newV) => print(`Volume changed: ${oldV} -> ${newV}`)
+    shouldShow: data => data.parentSetting,
+    registerListener: (oldV, newV) => print(`example slider changed: ${oldV} -> ${newV}`)
 })</code></pre>
                         </div>
                     </div>
@@ -1393,13 +1393,13 @@ Config().getConfig()
                                 <i class="fas fa-code"></i> </> Example
                             </div>
                             <pre><code class="javascript">.addColorPicker({
-    category: "Appearance",
-    configName: "themeColor",
-    title: "Theme Color",
-    subcategory: "Colors",
+    category: "example colorpicker",
+    configName: "example colorpicker",
+    title: "example colorpicker",
+    subcategory: "example colorpicker",
     value: [108, 92, 231],
-    shouldShow: data => data.customTheme,
-    registerListener: (oldV, newV) => print(`Color changed: [${oldV}] -> [${newV}]`)
+    shouldShow: data => data.parentSetting,
+    registerListener: (oldV, newV) => print(`example colorpicker changed: [${oldV}] -> [${newV}]`)
 })</code></pre>
                         </div>
                     </div>
@@ -1448,15 +1448,15 @@ Config().getConfig()
                                 <i class="fas fa-code"></i> </> Example
                             </div>
                             <pre><code class="javascript">.addDropDown({
-    category: "Settings",
-    configName: "language",
-    title: "Language Selection",
-    description: "Choose your preferred language",
-    subcategory: "Preferences",
-    options: ["English", "Spanish", "French", "German"],
-    value: "English",
-    shouldShow: data => data.enableLanguageSelection,
-    registerListener: (oldV, newV) => print(`Language changed: ${oldV} -> ${newV}`)
+    category: "example dropdown",
+    configName: "example dropdown",
+    title: "example dropdown",
+    description: "example dropdown",
+    subcategory: "example dropdown",
+    options: ["example dropdown", "example dropdown1", "example dropdown2", "example dropdown3"],
+    value: "example dropdown",
+    shouldShow: data => data.parentSetting,
+    registerListener: (oldV, newV) => print(`example dropdown changed: ${oldV} -> ${newV}`)
 })</code></pre>
                         </div>
                     </div>
@@ -1497,13 +1497,13 @@ Config().getConfig()
                                 <i class="fas fa-code"></i> </> Example
                             </div>
                             <pre><code class="javascript">.addTextParagraph({
-    category: "Information",
-    configName: "welcomeText",
-    title: "Welcome",
-    description: "Welcome to our module! This is a centered text paragraph that provides information to users.",
-    subcategory: "Welcome",
+    category: "example textparagraph",
+    configName: "exampleTextParagraph",
+    title: "example textparagraph",
+    description: "example textparagraph",
+    subcategory: "example textparagraph",
     centered: true,
-    shouldShow: data => data.showWelcome
+    shouldShow: data => data.parentSetting
 })</code></pre>
                         </div>
                     </div>
@@ -1548,14 +1548,14 @@ Config().getConfig()
                                 <i class="fas fa-code"></i> </> Example
                             </div>
                             <pre><code class="javascript">.addKeybind({
-    category: "Controls",
-    configName: "toggleKey",
-    title: "Toggle Module",
-    description: "Key to toggle the module on/off",
-    subcategory: "Hotkeys",
+    category: "example keybind",
+    configName: "exampleKeybind",
+    title: "example keybind",
+    description: "example keybind",
+    subcategory: "example keybind",
     value: 45, // Insert key
-    shouldShow: data => data.enableHotkeys,
-    registerListener: (oldV, newV) => print(`Keybind changed: ${oldV} -> ${newV}`)
+    shouldShow: data => data.parentSetting,
+    registerListener: (oldV, newV) => print(`example keybind changed: ${oldV} -> ${newV}`)
 })</code></pre>
                         </div>
                     </div>
@@ -1643,7 +1643,7 @@ Config().getConfig()
                     <pre><code class="javascript">import Config from "../config"
 import { FeatureManager } from "../../tska/event/FeatureManager"
 
-const FeatManager = new FeatureManager(Config())
+const FeatManager = new FeatureManager(Config().getConfig())
 const example = FeatManager.createFeature("exampleConfigVal")
 
 example
